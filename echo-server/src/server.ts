@@ -1,18 +1,22 @@
-import net from "net"
+import net from 'net'
 
 const server = net.createServer((socket) => {
-    console.log("Client Connected");
-    socket.write("Welcome\n");
+    console.log('Client connected');
 
-    socket.on('data',(data) => {
-        console.log('Data Recieved: ', data.toString());
-        socket.write(`Server got : ${data}`);
+    socket.write('Client Connected\n');
+    socket.on('data', (data) => {
+        const dataStr = data.toString();
+        console.log('Data Recieved : ', dataStr);
+        socket.write(`Echo : ${dataStr}`);      // Echo response
     })
-    socket.on('end', () => {
-        console.log('Client disconnected');
+    socket.on('end',()=>{
+        console.log('client left');
+    })
+    socket.on('error', (err) => {
+        console.error(err.message);
     });
 })
 
 server.listen(3000, () => {
-    console.log('TCP Server listening on port 3000');
-});
+    console.log('Echo running on port 3000');
+})
